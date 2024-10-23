@@ -1,9 +1,11 @@
 #include "api.h"
 
 int luaopen_lpeg(lua_State *L);
+int luaopen_system(lua_State *L);
 
 static const luaL_Reg libs[] = {
     { "lpeg", luaopen_lpeg },
+    { "system", luaopen_system },
     { NULL, NULL }
 };
 
