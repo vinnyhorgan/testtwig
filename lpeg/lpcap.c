@@ -1,6 +1,5 @@
 
-#include "lua.h"
-#include "lauxlib.h"
+#include "minilua.h"
 
 #include "lpcap.h"
 #include "lpprint.h"

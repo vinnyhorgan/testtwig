@@ -4,8 +4,7 @@
 #include <string.h>
 
 
-#include "lua.h"
-#include "lauxlib.h"
+#include "minilua.h"
 
 #include "lptypes.h"
 #include "lpcap.h"

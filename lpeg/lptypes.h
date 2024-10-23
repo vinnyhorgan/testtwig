@@ -12,7 +12,7 @@
 #include <limits.h>
 #include <string.h>
 
-#include "lua.h"
+#include "minilua.h"
 
 
 #define VERSION         "1.1.0"

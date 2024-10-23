@@ -1,8 +1,9 @@
-#define LUA_IMPL
-#include "minilua.h"
-
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+
+#include "minilua.h"
+
+#include "api/api.h"
 
 #define WIDTH 320
 #define HEIGHT 180
@@ -23,8 +24,36 @@ int main(int argc, char **argv) {
 
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
+    api_load_libs(L);
 
-    luaL_dostring(L, "print('Hello from Lua!')");
+    lua_newtable(L);
+    for (int i = 0; i < argc; i++) {
+        lua_pushstring(L, argv[i]);
+        lua_rawseti(L, -2, i + 1);
+    }
+    lua_setglobal(L, "ARGS");
+
+    lua_pushstring(L, "0.1.0");
+    lua_setglobal(L, "VERSION");
+
+    lua_pushstring(L, SDL_GetPlatform());
+    lua_setglobal(L, "PLATFORM");
+
+    luaL_dostring(L,
+        "xpcall(function()\n"
+        "  PATHSEP = package.config:sub(1, 1)\n"
+        "  package.path = './data/?.lua;' .. package.path\n"
+        "  package.path = './data/?/init.lua;' .. package.path\n"
+        "  local core = require('core')\n"
+        "  core.init()\n"
+        "  core.run()\n"
+        "end, function(err)\n"
+        "  print('Error: ' .. tostring(err))\n"
+        "  print(debug.traceback(nil, 2))\n"
+        "  os.exit(1)\n"
+        "end)");
+
+    lua_close(L);
 
     bool running = true;
     while (running) {

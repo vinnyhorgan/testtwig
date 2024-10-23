@@ -2,8 +2,7 @@
 #include <limits.h>
 
 
-#include "lua.h"
-#include "lauxlib.h"
+#include "minilua.h"
 
 #include "lptypes.h"
 #include "lpcode.h"
