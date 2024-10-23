@@ -1,5 +1,5 @@
 #define LUA_IMPL
-#include "../minilua.h"
+#include "minilua.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
