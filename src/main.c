@@ -1,3 +1,6 @@
+#define LUA_IMPL
+#include "../minilua.h"
+
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
@@ -17,6 +20,11 @@ int main(int argc, char **argv) {
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 
     uint32_t pixels[WIDTH * HEIGHT];
+
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+
+    luaL_dostring(L, "print('Hello from Lua!')");
 
     bool running = true;
     while (running) {
