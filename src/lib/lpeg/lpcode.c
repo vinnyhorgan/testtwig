@@ -2,7 +2,7 @@
 #include <limits.h>
 
 
-#include "minilua.h"
+#include "lib/minilua/minilua.h"
 
 #include "lptypes.h"
 #include "lpcode.h"

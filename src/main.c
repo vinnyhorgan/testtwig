@@ -1,7 +1,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-#include "minilua.h"
+#include "lib/minilua/minilua.h"
 
 #include "api/api.h"
 

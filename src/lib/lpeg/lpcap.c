@@ -1,5 +1,5 @@
 
-#include "minilua.h"
+#include "lib/minilua/minilua.h"
 
 #include "lpcap.h"
 #include "lpprint.h"

@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-#include "minilua.h"
+#include "lib/minilua/minilua.h"
 
 #include "lpcap.h"
 #include "lptypes.h"

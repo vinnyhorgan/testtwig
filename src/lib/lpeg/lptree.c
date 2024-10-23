@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-#include "minilua.h"
+#include "lib/minilua/minilua.h"
 
 #include "lptypes.h"
 #include "lpcap.h"
