@@ -17,6 +17,8 @@ SDL_Texture *screen_texture;
 Image *screen_image;
 
 int main(int argc, char **argv) {
+    screen_image = ren_create_image(WIDTH, HEIGHT);
+
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Twig v0.1.0", WIDTH * 3, HEIGHT * 3, SDL_WINDOW_RESIZABLE, &window, &renderer);
     ren_init();
@@ -25,8 +27,6 @@ int main(int argc, char **argv) {
 
     screen_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
     SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
-
-    screen_image = ren_create_image(WIDTH, HEIGHT);
 
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);

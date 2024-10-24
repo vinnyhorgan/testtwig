@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define max(a, b) ((a) > (b) ? (a) : (b))
-#define min(a, b) ((a) < (b) ? (a) : (b))
+#define ren_max(a, b) ((a) > (b) ? (a) : (b))
+#define ren_min(a, b) ((a) < (b) ? (a) : (b))
 
 extern SDL_Renderer *renderer;
 extern SDL_Texture *screen_texture;
@@ -14,10 +14,10 @@ extern Image *screen_image;
 static Rect clip;
 
 static Rect intersect_rects(Rect a, Rect b) {
-    int x1 = max(a.x, b.x);
-    int y1 = max(a.y, b.y);
-    int x2 = min(a.x + a.width, b.x + b.width);
-    int y2 = min(a.y + a.height, b.y + b.height);
+    int x1 = ren_max(a.x, b.x);
+    int y1 = ren_max(a.y, b.y);
+    int x2 = ren_min(a.x + a.width, b.x + b.width);
+    int y2 = ren_min(a.y + a.height, b.y + b.height);
     return (Rect) { x1, y1, x2 - x1, y2 - y1 };
 }
 
@@ -29,13 +29,18 @@ static inline Color blend_pixel(Color dst, Color src) {
     return res;
 }
 
-
 void ren_init() {
-    ren_set_clip((Rect) { 0, 0, 320, 180 });
+    clip = ren_rect(0, 0, screen_image->width, screen_image->height);
+
+    for (int y = 0; y < screen_image->height; y++) {
+        for (int x = 0; x < screen_image->width; x++) {
+            screen_image->pixels[x + y * screen_image->width] = ren_rgb(0, 0, 0); // investigate why this is necessary
+        }
+    }
 }
 
 void ren_update() {
-    SDL_UpdateTexture(screen_texture, NULL, screen_image->pixels, 320 * sizeof(uint32_t));
+    SDL_UpdateTexture(screen_texture, NULL, screen_image->pixels, screen_image->width * sizeof(uint32_t));
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer, screen_texture, NULL, NULL);
     SDL_RenderPresent(renderer);
@@ -43,7 +48,7 @@ void ren_update() {
 
 Image* ren_create_image(int width, int height) {
     assert(width > 0 && height > 0);
-    Image *image = malloc(sizeof(Image) + width * height * sizeof(Color));
+    Image *image = calloc(1, sizeof(Image) + width * height * sizeof(Color));
     image->pixels = (void*) (image + 1);
     image->width = width;
     image->height = height;
@@ -55,11 +60,11 @@ void ren_destroy_image(Image *image) {
 }
 
 void ren_clear(Color color) {
-    ren_draw_rect((Rect) {0, 0, 0xffffff, 0xffffff}, color);
+    ren_draw_rect(ren_rect(0, 0, 0xffffff, 0xffffff), color);
 }
 
 void ren_set_clip(Rect rect) {
-    Rect screen_rect = (Rect) { 0, 0, 320, 180 };
+    Rect screen_rect = ren_rect(0, 0, screen_image->width, screen_image->height);
     clip = intersect_rects(rect, screen_rect);
 }
 
