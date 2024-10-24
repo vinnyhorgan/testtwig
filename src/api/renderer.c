@@ -21,6 +21,11 @@ static Color checkcolor(lua_State *L, int idx, int def) {
     return color;
 }
 
+static int f_update(lua_State *L) {
+    ren_update();
+    return 0;
+}
+
 static int f_clear(lua_State *L) {
     Color color = checkcolor(L, 1, 0);
     ren_clear(color);
@@ -37,8 +42,22 @@ static int f_set_clip(lua_State *L) {
     return 0;
 }
 
-static int f_update(lua_State *L) {
-    ren_update();
+static int f_draw_point(lua_State *L) {
+    int x = luaL_checkinteger(L, 1);
+    int y = luaL_checkinteger(L, 2);
+    Color color = checkcolor(L, 3, 255);
+    ren_draw_point(x, y, color);
+    return 0;
+}
+
+static int f_draw_rect(lua_State *L) {
+    Rect rect;
+    rect.x = luaL_checkinteger(L, 1);
+    rect.y = luaL_checkinteger(L, 2);
+    rect.width = luaL_checkinteger(L, 3);
+    rect.height = luaL_checkinteger(L, 4);
+    Color color = checkcolor(L, 5, 255);
+    ren_draw_rect(rect, color);
     return 0;
 }
 
@@ -46,6 +65,8 @@ static const luaL_Reg lib[] = {
     { "update", f_update },
     { "clear", f_clear },
     { "set_clip", f_set_clip },
+    { "draw_point", f_draw_point },
+    { "draw_rect", f_draw_rect },
     { NULL, NULL }
 };
 

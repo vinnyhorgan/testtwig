@@ -23,5 +23,10 @@ void ren_clear(Color color);
 void ren_set_clip(Rect rect);
 void ren_draw_point(int x, int y, Color color);
 void ren_draw_rect(Rect rect, Color color);
+void ren_draw_image(Image *img, int x, int y);
+void ren_draw_image2(Image *img, int x, int y, Rect src, Color color);
+void ren_draw_image3(Image *img, Rect dst, Rect src, Color mul_color, Color add_color);
+int  ren_draw_text(char *text, int x, int y, Color color);
+int  ren_draw_text2(Font *font, char *text, int x, int y, Color color);
 
 #endif
