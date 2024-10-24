@@ -6,6 +6,7 @@
 #include "lib/minilua/minilua.h"
 
 #include "api/api.h"
+#include "renderer.h"
 
 #define WIDTH 320
 #define HEIGHT 180
@@ -18,6 +19,7 @@ uint32_t *screen_pixels;
 int main(int argc, char **argv) {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Twig v0.1.0", WIDTH * 3, HEIGHT * 3, SDL_WINDOW_RESIZABLE, &window, &renderer);
+    ren_init();
 
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 

@@ -19,6 +19,8 @@ function core.run()
             end
         end
 
+        renderer.draw_rect(10, 10, 50, 50, { 255, 0, 0, 255 })
+
         renderer.update()
 
         local elapsed = system.get_time() - frame_start
