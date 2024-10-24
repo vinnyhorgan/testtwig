@@ -14,7 +14,7 @@
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture *screen_texture;
-uint32_t *screen_pixels;
+Image *screen_image;
 
 int main(int argc, char **argv) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -26,11 +26,7 @@ int main(int argc, char **argv) {
     screen_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
     SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
 
-    screen_pixels = calloc(WIDTH * HEIGHT, sizeof(uint32_t));
-
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-        screen_pixels[i] = 0xFFFFFFFF;
-    }
+    screen_image = ren_create_image(WIDTH, HEIGHT);
 
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
@@ -64,7 +60,7 @@ int main(int argc, char **argv) {
 
     lua_close(L);
 
-    free(screen_pixels);
+    ren_destroy_image(screen_image);
 
     SDL_DestroyTexture(screen_texture);
     SDL_DestroyRenderer(renderer);

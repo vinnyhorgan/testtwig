@@ -2,11 +2,8 @@ local narrator = require("narrator.narrator")
 
 local core = {}
 
-print("Twig " .. VERSION)
-print(lpeg.version)
-
 function core.init()
-    print("init")
+
 end
 
 function core.run()
@@ -19,7 +16,7 @@ function core.run()
             end
         end
 
-        renderer.draw_rect(10, 10, 50, 50, { 255, 0, 0, 255 })
+        renderer.clear({ 255, 255, 0, 255 })
 
         renderer.update()
 
