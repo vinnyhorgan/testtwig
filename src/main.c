@@ -1,6 +1,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
+#include <stdlib.h>
+
 #include "lib/minilua/minilua.h"
 
 #include "api/api.h"
@@ -10,6 +12,8 @@
 
 SDL_Window *window;
 SDL_Renderer *renderer;
+SDL_Texture *screen_texture;
+uint32_t *screen_pixels;
 
 int main(int argc, char **argv) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -17,10 +21,14 @@ int main(int argc, char **argv) {
 
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 
-    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
-    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+    screen_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
+    SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
 
-    uint32_t pixels[WIDTH * HEIGHT];
+    screen_pixels = calloc(WIDTH * HEIGHT, sizeof(uint32_t));
+
+    for (int i = 0; i < WIDTH * HEIGHT; i++) {
+        screen_pixels[i] = 0xFFFFFFFF;
+    }
 
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
@@ -41,7 +49,6 @@ int main(int argc, char **argv) {
 
     luaL_dostring(L,
         "xpcall(function()\n"
-        "  PATHSEP = package.config:sub(1, 1)\n"
         "  package.path = './data/?.lua;' .. package.path\n"
         "  package.path = './data/?/init.lua;' .. package.path\n"
         "  local core = require('core')\n"
@@ -55,14 +62,9 @@ int main(int argc, char **argv) {
 
     lua_close(L);
 
-/*         SDL_UpdateTexture(texture, NULL, pixels, WIDTH * sizeof(uint32_t));
+    free(screen_pixels);
 
-        SDL_RenderClear(renderer);
-        SDL_RenderTexture(renderer, texture, NULL, NULL);
-        SDL_RenderPresent(renderer);
- */
-
-    SDL_DestroyTexture(texture);
+    SDL_DestroyTexture(screen_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

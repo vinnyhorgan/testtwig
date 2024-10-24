@@ -2,6 +2,7 @@ local narrator = require("narrator.narrator")
 
 local core = {}
 
+print("Twig " .. VERSION)
 print(lpeg.version)
 
 function core.init()
@@ -17,6 +18,8 @@ function core.run()
                 os.exit()
             end
         end
+
+        renderer.update()
 
         local elapsed = system.get_time() - frame_start
         system.sleep(math.max(0, 1/60 - elapsed))
