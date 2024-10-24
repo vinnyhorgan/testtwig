@@ -186,12 +186,28 @@ void ren_destroy_font(Font *font) {
     free(font);
 }
 
-int ren_text_width(Font *font, char *text) {
+int ren_text_width(Font *font, const char *text) {
     int x = 0;
     for (uint8_t *p = (void*) text; *p; p++) {
         x += font->glyphs[*p].xadv;
     }
     return x;
+}
+
+int ren_text_height(Font *font) {
+    return font->image->height / 16;
+}
+
+int ren_text_width_default(const char *text) {
+    int x = 0;
+    for (uint8_t *p = (void*) text; *p; p++) {
+        x += set_font->glyphs[*p].xadv;
+    }
+    return x;
+}
+
+int ren_text_height_default() {
+    return set_font->image->height / 16;
 }
 
 void ren_clear(Color color) {

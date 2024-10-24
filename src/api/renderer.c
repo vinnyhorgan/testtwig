@@ -70,6 +70,17 @@ static int f_draw_text(lua_State *L) {
     return 0;
 }
 
+static int f_text_width(lua_State *L) {
+    const char *text = luaL_checkstring(L, 1);
+    lua_pushinteger(L, ren_text_width_default(text));
+    return 1;
+}
+
+static int f_text_height(lua_State *L) {
+    lua_pushinteger(L, ren_text_height_default());
+    return 1;
+}
+
 static const luaL_Reg lib[] = {
     { "update", f_update },
     { "clear", f_clear },
@@ -77,6 +88,8 @@ static const luaL_Reg lib[] = {
     { "draw_point", f_draw_point },
     { "draw_rect", f_draw_rect },
     { "draw_text", f_draw_text },
+    { "text_width", f_text_width },
+    { "text_height", f_text_height },
     { NULL, NULL }
 };
 

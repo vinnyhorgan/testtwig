@@ -24,7 +24,10 @@ void ren_destroy_image(Image *image);
 Font* ren_load_font_file(const char *filename);
 Font* ren_load_font_mem(void *data, int len);
 void ren_destroy_font(Font *font);
-int ren_text_width(Font *font, char *text);
+int ren_text_width(Font *font, const char *text);
+int ren_text_height(Font *font);
+int ren_text_width_default(const char *text);
+int ren_text_height_default();
 
 void ren_clear(Color color);
 void ren_set_clip(Rect rect);
