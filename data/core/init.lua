@@ -20,7 +20,7 @@ function core.run()
 
         renderer.draw_point(10, 10, { 255, 0, 0 })
 
-        renderer.draw_rect(50, 50, 100, 100, { 0, 255, 0 })
+        -- renderer.draw_rect(50, 50, 100, 100, { 0, 255, 0 })
 
         renderer.update()
 

@@ -21,6 +21,11 @@ Image* ren_load_image_file(char *filename);
 Image* ren_load_image_mem(void *data, int len);
 void ren_destroy_image(Image *image);
 
+Font* ren_load_font_file(char *filename);
+Font* ren_load_font_mem(void *data, int len);
+void ren_destroy_font(Font *font);
+int ren_text_width(Font *font, char *text);
+
 void ren_clear(Color color);
 void ren_set_clip(Rect rect);
 void ren_draw_point(int x, int y, Color color);

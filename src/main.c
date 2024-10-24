@@ -26,6 +26,8 @@ int main(int argc, char **argv) {
     Image *img = ren_load_image_file("test.png");
     ren_draw_image(img, 10, 10);
 
+    ren_draw_text("Hello!! Welcome to Twig v0.1.0", 20, 100, ren_rgb(255, 255, 255));
+
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 
     screen_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
