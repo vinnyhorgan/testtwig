@@ -3,6 +3,9 @@
 #include <SDL3/SDL.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+
+#include "lib/stb/stb_image.h"
 
 #define ren_max(a, b) ((a) > (b) ? (a) : (b))
 #define ren_min(a, b) ((a) < (b) ? (a) : (b))
@@ -47,6 +50,19 @@ static inline Color blend_pixel3(Color dst, Color src, Color clr, Color add) {
     return blend_pixel2(dst, src, clr); // signal indentation bug to rxi
 }
 
+static void* read_file(char *filename, int *len) {
+    FILE *fp = fopen(filename, "rb");
+    if (!fp) { return NULL; }
+    fseek(fp, 0, SEEK_END);
+    int n = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    char *buf = malloc(n + 1);
+    fread(buf, 1, n, fp);
+    fclose(fp);
+    if (len) { *len = n; }
+    return buf;
+}
+
 void ren_init() {
     clip = ren_rect(0, 0, screen_image->width, screen_image->height);
 
@@ -70,6 +86,35 @@ Image* ren_create_image(int width, int height) {
     image->pixels = (void*) (image + 1);
     image->width = width;
     image->height = height;
+    return image;
+}
+
+Image* ren_load_image_file(char *filename) {
+    int len;
+    void *data = read_file(filename, &len);
+    if (!data) { return NULL; }
+    Image *res = ren_load_image_mem(data, len);
+    free(data);
+    return res;
+}
+
+Image* ren_load_image_mem(void *data, int len) {
+    int width, height;
+    stbi_uc *pixels = stbi_load_from_memory(data, len, &width, &height, NULL, 4);
+    if (!pixels) { return NULL; }
+
+    Image *image = ren_create_image(width, height);
+    memcpy(image->pixels, pixels, width * height * sizeof(Color));
+    stbi_image_free(pixels);
+
+    uint8_t* bytes = (uint8_t*)image->pixels;
+    int32_t n = image->width * image->height * sizeof(uint32_t);
+    for (int32_t i = 0; i < n; i += 4) {
+        uint8_t b = bytes[i];
+        bytes[i] = bytes[i + 2];
+        bytes[i + 2] = b;
+    }
+
     return image;
 }
 

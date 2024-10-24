@@ -16,7 +16,7 @@ function core.run()
             end
         end
 
-        renderer.clear({ 255, 255, 255 })
+        -- renderer.clear({ 255, 255, 255 })
 
         renderer.draw_point(10, 10, { 255, 0, 0 })
 

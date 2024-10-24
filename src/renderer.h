@@ -17,6 +17,8 @@ void ren_init();
 void ren_update();
 
 Image* ren_create_image(int width, int height);
+Image* ren_load_image_file(char *filename);
+Image* ren_load_image_mem(void *data, int len);
 void ren_destroy_image(Image *image);
 
 void ren_clear(Color color);
