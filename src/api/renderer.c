@@ -61,16 +61,30 @@ static int f_draw_rect(lua_State *L) {
     return 0;
 }
 
+static int f_draw_text(lua_State *L) {
+    const char *text = luaL_checkstring(L, 1);
+    int x = luaL_checkinteger(L, 2);
+    int y = luaL_checkinteger(L, 3);
+    Color color = checkcolor(L, 4, 255);
+    ren_draw_text((char*) text, x, y, color);
+    return 0;
+}
+
 static const luaL_Reg lib[] = {
     { "update", f_update },
     { "clear", f_clear },
     { "set_clip", f_set_clip },
     { "draw_point", f_draw_point },
     { "draw_rect", f_draw_rect },
+    { "draw_text", f_draw_text },
     { NULL, NULL }
 };
 
+int luaopen_renderer_image(lua_State *L);
+
 int luaopen_renderer(lua_State *L) {
     luaL_newlib(L, lib);
+    luaopen_renderer_image(L);
+    lua_setfield(L, -2, "image");
     return 1;
 }

@@ -21,12 +21,8 @@ int main(int argc, char **argv) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Twig v0.1.0", WIDTH * 3, HEIGHT * 3, SDL_WINDOW_RESIZABLE, &window, &renderer);
+    SDL_SetWindowMinimumSize(window, WIDTH, HEIGHT);
     ren_init();
-
-    Image *img = ren_load_image_file("test.png");
-    ren_draw_image(img, 10, 10);
-
-    ren_draw_text("Hello!! Welcome to Twig v0.1.0", 20, 100, ren_rgb(255, 255, 255));
 
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 

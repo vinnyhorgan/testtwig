@@ -50,7 +50,7 @@ static inline Color blend_pixel3(Color dst, Color src, Color clr, Color add) {
     return blend_pixel2(dst, src, clr); // signal indentation bug to rxi
 }
 
-static void* read_file(char *filename, int *len) {
+static void* read_file(const char *filename, int *len) {
     FILE *fp = fopen(filename, "rb");
     if (!fp) { return NULL; }
     fseek(fp, 0, SEEK_END);
@@ -140,7 +140,7 @@ Image* ren_create_image(int width, int height) {
     return image;
 }
 
-Image* ren_load_image_file(char *filename) {
+Image* ren_load_image_file(const char *filename) {
     int len;
     void *data = read_file(filename, &len);
     if (!data) { return NULL; }
@@ -173,7 +173,7 @@ void ren_destroy_image(Image *image) {
     free(image);
 }
 
-Font* ren_load_font_file(char *filename) {
+Font* ren_load_font_file(const char *filename) {
     return load_font_from_image(ren_load_image_file(filename));
 }
 

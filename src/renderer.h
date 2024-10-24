@@ -17,11 +17,11 @@ void ren_init();
 void ren_update();
 
 Image* ren_create_image(int width, int height);
-Image* ren_load_image_file(char *filename);
+Image* ren_load_image_file(const char *filename);
 Image* ren_load_image_mem(void *data, int len);
 void ren_destroy_image(Image *image);
 
-Font* ren_load_font_file(char *filename);
+Font* ren_load_font_file(const char *filename);
 Font* ren_load_font_mem(void *data, int len);
 void ren_destroy_font(Font *font);
 int ren_text_width(Font *font, char *text);

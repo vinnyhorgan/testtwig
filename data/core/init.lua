@@ -2,8 +2,11 @@ local narrator = require("narrator.narrator")
 
 local core = {}
 
-function core.init()
+local img
 
+function core.init()
+    img = renderer.image.load("test.png")
+    print(img:get_width(), img:get_height())
 end
 
 function core.run()
@@ -16,11 +19,13 @@ function core.run()
             end
         end
 
-        -- renderer.clear({ 255, 255, 255 })
+        renderer.clear({ 255, 255, 255 })
+
+        img:draw(10, 10)
 
         renderer.draw_point(10, 10, { 255, 0, 0 })
 
-        -- renderer.draw_rect(50, 50, 100, 100, { 0, 255, 0 })
+        renderer.draw_text("Porco dio! Cazzi per tutti bro", 20, 50, { 0, 0, 0})
 
         renderer.update()
 
