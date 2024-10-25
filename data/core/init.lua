@@ -5,7 +5,10 @@ local core = {}
 
 local img
 
-local box = Text.new(nil, {})
+local box = Text.new("left", {
+    adjust_line_height = 3
+})
+
 box:send("Helloooooo! [rainbow][bounce]THIS STUFF WORKS[/bounce][/rainbow] It's so [rainbow]COOL[/rainbow] you have no [shake]IDEA[/shake]", 100)
 
 function core.init()

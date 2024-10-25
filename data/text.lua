@@ -1319,8 +1319,7 @@ function M:changeDraw(str, tx, ty, i)
 
   if self.effect_flags.shake then
     strchg.x = math.floor((tx + get_character_width("W") / 2 +
-                            math.sin(self.timer_animation * self.effect_speed.shake_speed + i / 2)) + 0.5) +
-                 get_character_width(" ")
+                            math.sin(self.timer_animation * self.effect_speed.shake_speed + i / 2)) + 0.5) --+ get_character_width(" ")
     strchg.y = math.floor((ty + get_character_height("W") / 2 +
                             math.cos(self.timer_animation * self.effect_speed.shake_speed + i / 2)) + 0.5)
   end
