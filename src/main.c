@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
     SDL_SetWindowMinimumSize(window, WIDTH, HEIGHT);
     ren_init();
 
+    SDL_HideCursor();
+
     SDL_StartTextInput(window); // should be enabled only when text input is needed
 
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);

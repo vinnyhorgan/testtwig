@@ -35,6 +35,8 @@ static int f_poll_event(lua_State *L) {
         return 0;
     }
 
+    SDL_ConvertEventToRenderCoordinates(renderer, &e);
+
     switch (e.type) {
         case SDL_EVENT_QUIT:
             lua_pushstring(L, "quit");
@@ -69,25 +71,25 @@ static int f_poll_event(lua_State *L) {
             if (e.button.button == 1) { SDL_CaptureMouse(1); }
             lua_pushstring(L, "mousepressed");
             lua_pushstring(L, button_name(e.button.button));
-            lua_pushnumber(L, e.button.x);
-            lua_pushnumber(L, e.button.y);
-            lua_pushnumber(L, e.button.clicks);
+            lua_pushinteger(L, e.button.x);
+            lua_pushinteger(L, e.button.y);
+            lua_pushinteger(L, e.button.clicks);
             return 5;
 
         case SDL_EVENT_MOUSE_BUTTON_UP:
             if (e.button.button == 1) { SDL_CaptureMouse(0); }
             lua_pushstring(L, "mousereleased");
             lua_pushstring(L, button_name(e.button.button));
-            lua_pushnumber(L, e.button.x);
-            lua_pushnumber(L, e.button.y);
+            lua_pushinteger(L, e.button.x);
+            lua_pushinteger(L, e.button.y);
             return 4;
 
         case SDL_EVENT_MOUSE_MOTION:
             lua_pushstring(L, "mousemoved");
-            lua_pushnumber(L, e.motion.x);
-            lua_pushnumber(L, e.motion.y);
-            lua_pushnumber(L, e.motion.xrel);
-            lua_pushnumber(L, e.motion.yrel);
+            lua_pushinteger(L, e.motion.x);
+            lua_pushinteger(L, e.motion.y);
+            lua_pushinteger(L, e.motion.xrel);
+            lua_pushinteger(L, e.motion.yrel);
             return 5;
 
         case SDL_EVENT_MOUSE_WHEEL:
