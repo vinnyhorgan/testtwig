@@ -84,7 +84,7 @@ function core.run()
             if type == "quit" then
                 os.exit()
             elseif type == "textinput" then
-
+                state_manager:textinput(a)
             elseif type == "mousemoved" then
                 mouseX, mouseY = a, b
                 state_manager:mousemoved(a, b)

@@ -34,6 +34,12 @@ function StateManager:keypressed(key)
     end
 end
 
+function StateManager:textinput(text)
+    if self.current_state and self.current_state.textinput then
+        self.current_state:textinput(text)
+    end
+end
+
 function StateManager:mousepressed(button, x, y)
     if self.current_state and self.current_state.mousepressed then
         self.current_state:mousepressed(button, x, y)

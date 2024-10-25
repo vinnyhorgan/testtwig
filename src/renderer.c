@@ -110,6 +110,29 @@ static Font* load_font_from_image(Image *img) {
     return font;
 }
 
+static const char* utf8_to_codepoint(const char *p, unsigned *dst) {
+    unsigned res, n;
+    switch (*p & 0xf0) {
+        case 0xf0 :  res = *p & 0x07;  n = 3;  break;
+        case 0xe0 :  res = *p & 0x0f;  n = 2;  break;
+        case 0xd0 :
+        case 0xc0 :  res = *p & 0x1f;  n = 1;  break;
+        default   :  res = *p;         n = 0;  break;
+    }
+    while (n--) {
+        res = (res << 6) | (*(++p) & 0x3f);
+    }
+    *dst = res;
+    return p + 1;
+}
+
+Glyph* find_glyph(Font *font, unsigned  codepoint) {
+    if (codepoint < 256) {
+        return &font->glyphs[codepoint];
+    }
+    return &font->glyphs['?'];
+}
+
 static void *font_png_data;
 static int   font_png_size;
 
@@ -207,8 +230,12 @@ int ren_text_height(Font *font) {
 
 int ren_text_width_default(const char *text) {
     int x = 0;
-    for (uint8_t *p = (void*) text; *p; p++) {
-        x += set_font->glyphs[*p].xadv;
+    const char *p = text;
+    unsigned codepoint;
+    while (*p) {
+        p = utf8_to_codepoint(p, &codepoint);
+        Glyph *g = find_glyph(set_font, codepoint);
+        x += g->xadv;
     }
     return x;
 }
@@ -327,29 +354,6 @@ void ren_draw_image3(Image *img, Rect dst, Rect src, Color mul_color, Color add_
 
 int ren_draw_text(const char *text, int x, int y, Color color) {
     return ren_draw_text2(set_font, text, x, y, color);
-}
-
-static const char* utf8_to_codepoint(const char *p, unsigned *dst) {
-  unsigned res, n;
-  switch (*p & 0xf0) {
-    case 0xf0 :  res = *p & 0x07;  n = 3;  break;
-    case 0xe0 :  res = *p & 0x0f;  n = 2;  break;
-    case 0xd0 :
-    case 0xc0 :  res = *p & 0x1f;  n = 1;  break;
-    default   :  res = *p;         n = 0;  break;
-  }
-  while (n--) {
-    res = (res << 6) | (*(++p) & 0x3f);
-  }
-  *dst = res;
-  return p + 1;
-}
-
-Glyph* find_glyph(Font *font, unsigned  codepoint) {
-    if (codepoint < 256) {
-        return &font->glyphs[codepoint];
-    }
-    return &font->glyphs['?'];
 }
 
 int ren_draw_text2(Font *font, const char *text, int x, int y, Color color) {
