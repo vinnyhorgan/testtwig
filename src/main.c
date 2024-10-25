@@ -8,8 +8,8 @@
 #include "api/api.h"
 #include "renderer.h"
 
-#define WIDTH 320
-#define HEIGHT 180
+#define WIDTH 384
+#define HEIGHT 216
 
 SDL_Window *window;
 SDL_Renderer *renderer;

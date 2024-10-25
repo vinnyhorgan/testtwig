@@ -250,6 +250,21 @@ void ren_draw_rect(Rect rect, Color color) {
     }
 }
 
+void ren_draw_line(int x1, int y1, int x2, int y2, Color color) {
+    int dx = abs(x2-x1);
+    int sx = x1 < x2 ? 1 : -1;
+    int dy = -abs(y2 - y1);
+    int sy = y1 < y2 ? 1 : -1;
+    int err = dx + dy;
+    for (;;) {
+        ren_draw_point(x1, y1, color);
+        if (x1 == x2 && y1 == y2) { break; }
+        int e2 = err << 1;
+        if (e2 >= dy) { err += dy; x1 += sx; }
+        if (e2 <= dx) { err += dx; y1 += sy; }
+    }
+}
+
 void ren_draw_image(Image *img, int x, int y) {
     Rect dst = ren_rect(x, y, img->width, img->height);
     Rect src = ren_rect(0, 0, img->width, img->height);

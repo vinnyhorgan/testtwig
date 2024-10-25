@@ -61,6 +61,16 @@ static int f_draw_rect(lua_State *L) {
     return 0;
 }
 
+static int f_draw_line(lua_State *L) {
+    int x1 = luaL_checkinteger(L, 1);
+    int y1 = luaL_checkinteger(L, 2);
+    int x2 = luaL_checkinteger(L, 3);
+    int y2 = luaL_checkinteger(L, 4);
+    Color color = checkcolor(L, 5, 255);
+    ren_draw_line(x1, y1, x2, y2, color);
+    return 0;
+}
+
 static int f_draw_text(lua_State *L) {
     const char *text = luaL_checkstring(L, 1);
     int x = luaL_checkinteger(L, 2);
@@ -87,6 +97,7 @@ static const luaL_Reg lib[] = {
     { "set_clip", f_set_clip },
     { "draw_point", f_draw_point },
     { "draw_rect", f_draw_rect },
+    { "draw_line", f_draw_line },
     { "draw_text", f_draw_text },
     { "text_width", f_text_width },
     { "text_height", f_text_height },

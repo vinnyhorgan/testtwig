@@ -1,8 +1,6 @@
 local Demo = Object:extend()
 
-function Demo:new(state_manager)
-    self.state_manager = state_manager
-
+function Demo:new()
     self.box = text.new("left", {
         color = { 1, 1, 1, 1 },
         print_speed = 0.03,
