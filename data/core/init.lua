@@ -12,6 +12,8 @@ function core.init()
     img = renderer.image.load("test.png")
 end
 
+local inp = ""
+
 function core.run()
     while true do
         local frame_start = system.get_time()
@@ -21,6 +23,8 @@ function core.run()
         for type, a,b,c,d in system.poll_event do
             if type == "quit" then
                 os.exit()
+            elseif type == "textinput" then
+                inp = inp .. a
             end
         end
 
@@ -32,7 +36,7 @@ function core.run()
 
         renderer.draw_point(10, 10, { 255, 0, 0 })
 
-        renderer.draw_text("Welcome to twig", 20, 30, { 0, 0, 0 })
+        renderer.draw_text(inp, 20, 30, { 0, 0, 0 })
 
         renderer.update()
 

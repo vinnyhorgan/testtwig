@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
     SDL_SetWindowMinimumSize(window, WIDTH, HEIGHT);
     ren_init();
 
+    SDL_StartTextInput(window); // should be enabled only when text input is needed
+
     SDL_SetRenderLogicalPresentation(renderer, WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 
     screen_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
@@ -62,6 +64,8 @@ int main(int argc, char **argv) {
     lua_close(L);
 
     ren_destroy_image(screen_image);
+
+    SDL_StopTextInput(window);
 
     SDL_DestroyTexture(screen_texture);
     SDL_DestroyRenderer(renderer);
