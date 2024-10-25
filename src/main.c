@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     screen_image = ren_create_image(WIDTH, HEIGHT);
 
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer("Twig v0.1.0", WIDTH * 3, HEIGHT * 3, SDL_WINDOW_RESIZABLE, &window, &renderer);
+    SDL_CreateWindowAndRenderer("Twig v0.1.0", WIDTH * 3, HEIGHT * 3, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN, &window, &renderer);
     SDL_SetWindowMinimumSize(window, WIDTH, HEIGHT);
     ren_init();
 

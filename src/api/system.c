@@ -25,6 +25,8 @@ static const char* button_name(int button) {
     }
 }
 
+static bool fullscreen = false;
+
 static int f_poll_event(lua_State *L) {
     char buf[16];
     SDL_Event e;
@@ -39,6 +41,16 @@ static int f_poll_event(lua_State *L) {
             return 1;
 
         case SDL_EVENT_KEY_DOWN:
+            if (e.key.key == SDLK_RETURN && (e.key.mod & SDL_KMOD_ALT)) {
+                fullscreen = !fullscreen;
+                if (fullscreen) {
+                    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+                } else {
+                    SDL_SetWindowFullscreen(window, 0);
+                }
+                return 0;
+            }
+
             lua_pushstring(L, "keypressed");
             lua_pushstring(L, key_name(buf, e.key.key));
             return 2;

@@ -10,6 +10,7 @@
 #define ren_max(a, b) ((a) > (b) ? (a) : (b))
 #define ren_min(a, b) ((a) < (b) ? (a) : (b))
 
+extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture *screen_texture;
 extern Image *screen_image;
@@ -129,6 +130,12 @@ void ren_update() {
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer, screen_texture, NULL, NULL);
     SDL_RenderPresent(renderer);
+
+    static bool first = true;
+    if (first) {
+        SDL_ShowWindow(window);
+        first = false;
+    }
 }
 
 Image* ren_create_image(int width, int height) {
