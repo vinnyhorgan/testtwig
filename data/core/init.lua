@@ -82,7 +82,7 @@ function core.run()
 
         for type, a,b,c,d in system.poll_event do
             if type == "quit" then
-                os.exit()
+                return
             elseif type == "textinput" then
                 state_manager:textinput(a)
             elseif type == "mousemoved" then
